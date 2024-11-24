@@ -6,6 +6,8 @@ pnet_data/
 # notebooks
 .ipynb_checkpoints
 
+# results
+results/
 
 #####		Template		#####
 # Byte-compiled / optimized / DLL files

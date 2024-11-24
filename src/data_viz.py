@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 
-LABELS = ["unfocus hit", "focus hit"]
+# LABELS = ["unfocus hit", "focus hit"]
 
 def event_id_to_sample_id(events_df, event_id):
     return events_df.query('event_number == @event_id').sample_ID.unique()
@@ -220,7 +220,8 @@ def plot_result(history, item):
     plt.grid()
     plt.show()
 
-def _visualize_data(point_cloud, labels, ax=None):
+def _visualize_data(point_cloud, labels, label_map, ax=None, class_colors = {0: 'firebrick', 1: 'forestgreen',}
+):
     df = pd.DataFrame(
         data={
             "x": point_cloud[:, 0],
@@ -232,7 +233,7 @@ def _visualize_data(point_cloud, labels, ax=None):
     if ax is None:
         fig = plt.figure(figsize=(15, 10))
         ax = plt.axes(projection="3d")
-    for index, label in enumerate(LABELS):
+    for index, label in enumerate(label_map):
         c_df = df[df["label"] == label]
         try:
             ax.scatter(
@@ -244,8 +245,8 @@ def _visualize_data(point_cloud, labels, ax=None):
     # plt.show()
     
     
-def visualize_prediction(point_clouds, label_clouds, idx, ax=None):
-    label_map = LABELS
+def visualize_prediction(point_clouds, label_clouds, idx, ax=None, label_map=["unfocus hit", "focus hit"], class_colors = {0: 'firebrick', 1: 'forestgreen',}
+):
     point_cloud = point_clouds[idx]
     label_cloud = label_clouds[idx]
-    _visualize_data(point_cloud, [label_map[np.argmax(label)] for label in label_cloud], ax)
+    _visualize_data(point_cloud, [label_map[np.argmax(label)] for label in label_cloud], label_map, ax)

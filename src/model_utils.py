@@ -6,7 +6,21 @@ import tensorflow as tf
 
 from numpy.lib.recfunctions import structured_to_unstructured
 from functools import partial
+import random
+import os
 
+def set_global_seeds(seed=42):
+    # Set seeds for all random number generators
+    random.seed(seed)
+    np.random.seed(seed)
+    tf.random.set_seed(seed)
+    
+    # Enable TensorFlow determinism
+    tf.config.experimental.enable_op_determinism()
+    os.environ['TF_DETERMINISTIC_OPS'] = '1'
+    
+    # Set Python hash seed
+    os.environ['PYTHONHASHSEED'] = str(seed)
 
 ### DATALOADER UTILS ################################################################
 def load_data(point_cloud_batch, label_cloud_batch, n_points=800, n_features=3, labels=["unfocus hit", "focus hit"]):

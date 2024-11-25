@@ -8,6 +8,7 @@ pnet_data/
 
 # results
 results/
+wandb/
 
 #####		Template		#####
 # Byte-compiled / optimized / DLL files

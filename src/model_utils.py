@@ -31,10 +31,12 @@ def load_data(point_cloud_batch, label_cloud_batch, n_points=800, n_features=3, 
 
 def augment(point_cloud_batch, label_cloud_batch):
     noise = tf.random.uniform(
-        tf.shape(point_cloud_batch), -0.001, 0.001, dtype=tf.float64
+        tf.shape(point_cloud_batch[:, :, :3]), -0.001, 0.001, dtype=tf.float64
     )
 
-    point_cloud_batch += noise[:, :, :3]
+    noisy_xyz = point_cloud_batch[:, :, :3] + noise
+    point_cloud_batch = tf.concat([noisy_xyz, point_cloud_batch[:, :, 3:]], axis=-1)
+    
     return point_cloud_batch, label_cloud_batch
 
 

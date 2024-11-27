@@ -46,7 +46,7 @@ def generate_dataset(point_clouds, label_clouds, is_training=True, bs=16, n_poin
     dataset = tf.data.Dataset.from_tensor_slices((point_clouds, label_clouds))
     dataset = dataset.shuffle(bs * 100) if is_training else dataset
     load_data_with_args = partial(load_data, n_points=n_points, n_features=n_features, labels=labels)
-    dataset = dataset.map(load_data, num_parallel_calls=tf.data.AUTOTUNE)
+    dataset = dataset.map(load_data_with_args, num_parallel_calls=tf.data.AUTOTUNE)
     dataset = dataset.batch(batch_size=bs)
     dataset = (
         dataset.map(augment, num_parallel_calls=tf.data.AUTOTUNE)
